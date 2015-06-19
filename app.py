@@ -56,7 +56,7 @@ def not_found(error):
 
 
 @app.route('/todo/api/v1.0/gordoninfo/<string:info_desc>', methods=['GET'])
-#@auth.login_required
+@auth.login_required
 def get_gordoninfo(info_desc):
     #refactor this line !!!
      infopoint = [obj for obj in infoPoints if obj['id'] == info_desc]
