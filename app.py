@@ -1,6 +1,7 @@
 #!/Library/Frameworks/Python.framework/Versions/3.4/bin/python3
 from flask import Flask, jsonify, abort, make_response, request, url_for
 from flask.ext.httpauth import HTTPBasicAuth
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -33,7 +34,30 @@ infoPoints = [
               
 ]
 
+def check_auth(username, password):
+    return username == 'iGordon' and password == 'swift'
 
+def authenticate():
+    message = {'message': "Authenticate."}
+    resp = jsonify(message)
+    
+    resp.status_code = 401
+    resp.headers['WWW-Authenticate'] = 'Basic realm="Example"'
+    
+    return resp
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        authT = request.authorization
+        if not authT:
+            return authenticate()
+        
+        elif not check_auth(auth.username, auth.password):
+            return authenticate()
+        return f(*args, **kwargs)
+    
+    return decorated
 
 auth = HTTPBasicAuth()
 
@@ -56,7 +80,8 @@ def not_found(error):
 
 
 @app.route('/igordon/api/v1.0/gordoninfo/<string:info_desc>', methods=['GET'])
-@auth.login_required
+#@auth.login_required
+@requires_auth
 def get_gordoninfo(info_desc):
     #refactor this line !!!
      infopoint = [obj for obj in infoPoints if obj['id'] == info_desc]
