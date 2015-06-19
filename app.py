@@ -34,26 +34,23 @@ infoPoints = [
               
 ]
 
-def check_auth(username, password):
-    return username == 'iGordon' and password == 'swift'
+
+def check_login():
+    return request.args.get("username") == "iGordon" and request.args.get("password") == "swift"
 
 def authenticate():
-    message = {'message': "Authenticate."}
+    message = {'message': "Authenticate!"}
     resp = jsonify(message)
     
     resp.status_code = 401
-    resp.headers['WWW-Authenticate'] = 'Basic realm="\api\"'
+    resp.headers['WWW-Authenticate'] = 'Basic realm="NOT OK"'
     
     return resp
 
 def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        authT = request.authorization
-        if not authT:
-            return authenticate()
-        
-        elif not check_auth(authT.username, authT.password):
+        if not check_login():
             return authenticate()
         return f(*args, **kwargs)
     
@@ -75,13 +72,6 @@ def get_gordoninfo(info_desc):
      if len(infopoint) == 0:
         abort(404)
      return jsonify(infopoint[0])
-
-#@app.route('/igordon/api/v1.0/gordoninfo/login', methods=['GET'])
-#def get_login():
-#    print('LOGIN IN PROGRESS')
-
-
-
 
 
 if __name__ == '__main__':
