@@ -55,7 +55,7 @@ def not_found(error):
 
 
 
-@app.route('/todo/api/v1.0/gordoninfo/<string:info_desc>', methods=['GET'])
+@app.route('/igordon/api/v1.0/gordoninfo/<string:info_desc>', methods=['GET'])
 @auth.login_required
 def get_gordoninfo(info_desc):
     #refactor this line !!!
@@ -65,7 +65,7 @@ def get_gordoninfo(info_desc):
         abort(404)
      return jsonify(infopoint[0])
 
-@app.route('/todo/api/v1.0/gordoninfo/login', methods=['GET'])
+@app.route('/igordon/api/v1.0/gordoninfo/login', methods=['GET'])
 @auth.login_required
 def get_login():
     print('LOGIN IN PROGRESS')
