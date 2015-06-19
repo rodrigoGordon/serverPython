@@ -59,11 +59,6 @@ def requires_auth(f):
     
     return decorated
 
-@auth.error_handler
-def unauthorized():
-    return make_response(jsonify({'error': 'Unauthorized access'}), 401)
-
-
 
 @app.errorhandler(404)
 def not_found(error):
