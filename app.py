@@ -42,7 +42,7 @@ def authenticate():
     resp = jsonify(message)
     
     resp.status_code = 401
-    resp.headers['WWW-Authenticate'] = 'Basic realm="Example"'
+    resp.headers['WWW-Authenticate'] = 'Basic realm="\api\"'
     
     return resp
 
@@ -59,14 +59,6 @@ def requires_auth(f):
     
     return decorated
 
-auth = HTTPBasicAuth()
-
-@auth.get_password
-def get_password(username):
-    if username == 'iGordon':
-        return 'swift'
-    return None
-
 @auth.error_handler
 def unauthorized():
     return make_response(jsonify({'error': 'Unauthorized access'}), 401)
@@ -80,7 +72,6 @@ def not_found(error):
 
 
 @app.route('/igordon/api/v1.0/gordoninfo/<string:info_desc>', methods=['GET'])
-#@auth.login_required
 @requires_auth
 def get_gordoninfo(info_desc):
     #refactor this line !!!
@@ -90,10 +81,9 @@ def get_gordoninfo(info_desc):
         abort(404)
      return jsonify(infopoint[0])
 
-@app.route('/igordon/api/v1.0/gordoninfo/login', methods=['GET'])
-@auth.login_required
-def get_login():
-    print('LOGIN IN PROGRESS')
+#@app.route('/igordon/api/v1.0/gordoninfo/login', methods=['GET'])
+#def get_login():
+#    print('LOGIN IN PROGRESS')
 
 
 
