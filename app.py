@@ -53,7 +53,7 @@ def requires_auth(f):
         if not authT:
             return authenticate()
         
-        elif not check_auth(auth.username, auth.password):
+        elif not check_auth(authT.username, authT.password):
             return authenticate()
         return f(*args, **kwargs)
     
