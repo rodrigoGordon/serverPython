@@ -2,6 +2,7 @@
 from flask import Flask, jsonify, abort, make_response, request, url_for
 from flask.ext.httpauth import HTTPBasicAuth
 from functools import wraps
+import time
 
 app = Flask(__name__)
 
@@ -71,6 +72,7 @@ def get_gordoninfo(info_desc):
          # check for a single result
      if len(infopoint) == 0:
         abort(404)
+     time.sleep(5)
      return jsonify(infopoint[0])
 
 
