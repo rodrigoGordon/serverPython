@@ -72,7 +72,7 @@ def get_gordoninfo(info_desc):
          # check for a single result
      if len(infopoint) == 0:
         abort(404)
-     time.sleep(2)
+     time.sleep(10)
      return jsonify(infopoint[0])
 
 
