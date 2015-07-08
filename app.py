@@ -52,6 +52,7 @@ def requires_auth(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         if not check_login():
+            time.sleep(10)
             return authenticate()
         return f(*args, **kwargs)
     
@@ -72,7 +73,7 @@ def get_gordoninfo(info_desc):
          # check for a single result
      if len(infopoint) == 0:
         abort(404)
-     time.sleep(10)
+     time.sleep(2)
      return jsonify(infopoint[0])
 
 
